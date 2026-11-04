@@ -14,17 +14,20 @@ client.on('ready', async () => {
         // Pilih tipe: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
         .setType('LISTENING') 
         .setName('Spotify') // Nama aplikasi/aktivitas
-        .setDetails('Judul Lagu - Nama Artis') // Baris pertama detail
-        .setState('Nama Album') // Baris kedua detail
+        .setDetails('Tell Me How? - Snuzzle') // Baris pertama detail
+        .setState('Please come to me, heal my lonely soul') // Baris kedua detail
+        
+        // Mengatur waktu berjalan (seperti Spotify)
+        .setStartTimestamp(Date.now()) 
         
         // 2. CARA MENAMBAHKAN GAMBAR LEWAT mp:external
         // Menggunakan format link proxy internal Discord
         .setAssetsLargeImage('mp:external/tH6OOmCqAptNcr4Vl8vHBA0Q5wXN9x5GZc5z0j1JpQY/https/i.scdn.co/image/ab67616d0000b2736b0870ed2ef54c866d5b00c5') 
-        .setAssetsLargeText('Listening on Spotify')
+        .setAssetsLargeText('! Njarr.')
         
         // Menambahkan Tombol (Buttons)
-        .addButton('Putar di Spotify', 'https://spotify.com...')
-        .addButton('Ikuti Artis', 'https://spotify.com...');
+        .addButton('My Spotify', 'https://open.spotify.com/user/31mo2ge36jsg27jcieljeqkn4mly?si=hFmNeye-SfaRcIgyEIyvGg&utm_source=copy-link...')
+        .addButton('My Instagram', 'https://www.instagram.com/anjarrmdhni...');
 
     // Menerapkan status ke akun
     client.user.setActivity(status);
