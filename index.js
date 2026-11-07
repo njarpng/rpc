@@ -3,35 +3,52 @@ const client = new Client({
     checkUpdate: false,
 });
 
-// Masukkan Token Akun Discord Anda di sini
-const TOKEN = 'TOKEN_AKUN_DISCORD_ANDA'; 
+// Token dibaca dari environment variable TOKEN (tab Env di dashboard)
+const TOKEN = process.env.TOKEN;
+
+// Panjang satu "lagu" dalam milidetik (diatur lewat env TRACK_LENGTH_MS)
+const TRACK_LENGTH_MS = Number(process.env.TRACK_LENGTH_MS) || ;
+
+let startTime = Date.now();
+let endTime = startTime + TRACK_LENGTH_MS;
+
+function updatePresence() {
+    const sekarang = Date.now();
+
+    // Jika lagu sudah habis, reset waktu agar berulang (looping)
+    if (sekarang >= endTime) {
+        startTime = sekarang;
+        endTime = startTime + TRACK_LENGTH_MS;
+    }
+
+    const status = new RichPresence(client)
+        // Pilih tipe: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
+        .setType(process.env.TYPE || '')
+        .setName(process.env.NAME || '') // Nama aplikasi/aktivitas
+        .setDetails(process.env.DETAILS || '') // Baris pertama detail
+        .setState(process.env.STATE || '') // Baris kedua detail
+        // Mengatur waktu berjalan (seperti Spotify)
+        .setStartTimestamp(startTime)
+        .setEndTimestamp(endTime)
+        // Gambar lewat mp:external (link proxy internal Discord)
+        .setAssetsLargeImage(process.env.ASSETS_LARGE_IMAGE || '')
+        // Menambahkan Tombol (Buttons)
+        .addButton(process.env.BUTTON_1_LABEL || '', process.env.BUTTON_1_URL || '')
+        .addButton(process.env.BUTTON_2_LABEL || '', process.env.BUTTON_2_URL || '');
+
+    // Menerapkan status ke akun
+    client.user.setActivity(status);
+}
 
 client.on('ready', async () => {
     console.log(`Self-bot aktif sebagai: ${client.user.tag}`);
 
-    // Membuat instance Rich Presence
-    const status = new RichPresence(client)
-        // Pilih tipe: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        .setType('LISTENING') 
-        .setName('Spotify') // Nama aplikasi/aktivitas
-        .setDetails('Tell Me How? - Snuzzle') // Baris pertama detail
-        .setState('Please come to me, heal my lonely soul') // Baris kedua detail
-        
-        // Mengatur waktu berjalan (seperti Spotify)
-        .setStartTimestamp(Date.now()) 
-        
-        // 2. CARA MENAMBAHKAN GAMBAR LEWAT mp:external
-        // Menggunakan format link proxy internal Discord
-        .setAssetsLargeImage('mp:external/tH6OOmCqAptNcr4Vl8vHBA0Q5wXN9x5GZc5z0j1JpQY/https/i.scdn.co/image/ab67616d0000b2736b0870ed2ef54c866d5b00c5') 
-        .setAssetsLargeText('! Njarr.')
-        
-        // Menambahkan Tombol (Buttons)
-        .addButton('My Spotify', 'https://open.spotify.com/user/31mo2ge36jsg27jcieljeqkn4mly?si=hFmNeye-SfaRcIgyEIyvGg&utm_source=copy-link...')
-        .addButton('My Instagram', 'https://www.instagram.com/anjarrmdhni...');
-
-    // Menerapkan status ke akun
-    client.user.setActivity(status);
+    // Jalankan pertama kali
+    updatePresence();
     console.log('Custom Activity berhasil diterapkan!');
+
+    // Interval cek setiap 2 detik untuk memastikan transisi looping mulus
+    setInterval(updatePresence, 2000);
 });
 
 client.login(TOKEN);
