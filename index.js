@@ -4,10 +4,10 @@ const client = new Client({
 });
 
 // Token dibaca dari environment variable TOKEN (tab Env di dashboard)
-const TOKEN = process.env.TOKEN;
+TOKEN = os.getenv("TOKEN");
 
 // Panjang satu "lagu" dalam milidetik (diatur lewat env TRACK_LENGTH_MS)
-const TRACK_LENGTH_MS = Number(process.env.TRACK_LENGTH_MS) || ;
+TRACK_LENGTH_MS = Number(os.getenv("TRACK_LENGTH_MS") || ;
 
 let startTime = Date.now();
 let endTime = startTime + TRACK_LENGTH_MS;
@@ -23,18 +23,18 @@ function updatePresence() {
 
     const status = new RichPresence(client)
         // Pilih tipe: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        .setType(process.env.TYPE || '')
-        .setName(process.env.NAME || '') // Nama aplikasi/aktivitas
-        .setDetails(process.env.DETAILS || '') // Baris pertama detail
-        .setState(process.env.STATE || '') // Baris kedua detail
+        .setType(os.getenv("TYPE")
+        .setName(os.getenv("NAME") // Nama aplikasi/aktivitas
+        .setDetails(os.getenv("DETAILS") // Baris pertama detail
+        .setState(os.getenv("STATE") // Baris kedua detail
         // Mengatur waktu berjalan (seperti Spotify)
         .setStartTimestamp(startTime)
         .setEndTimestamp(endTime)
         // Gambar lewat mp:external (link proxy internal Discord)
-        .setAssetsLargeImage(process.env.ASSETS_LARGE_IMAGE || '')
+        .setAssetsLargeImage(os.getenv("ASSETS_LARGE_IMAGE")
         // Menambahkan Tombol (Buttons)
-        .addButton(process.env.BUTTON_1_LABEL || '', process.env.BUTTON_1_URL || '')
-        .addButton(process.env.BUTTON_2_LABEL || '', process.env.BUTTON_2_URL || '');
+        .addButton(os.getenv("BUTTON_1_LABEL"), os.getenv("BUTTON_1_URL")
+        .addButton(os.getenv("BUTTON_2_LABEL"), os.getenv("BUTTON_2_URL");
 
     // Menerapkan status ke akun
     client.user.setActivity(status);
