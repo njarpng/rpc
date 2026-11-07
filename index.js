@@ -7,7 +7,7 @@ const client = new Client({
 TOKEN = os.getenv("TOKEN");
 
 // Panjang satu "lagu" dalam milidetik (diatur lewat env TRACK_LENGTH_MS)
-TRACK_LENGTH_MS = Number(os.getenv("TRACK_LENGTH_MS") || ;
+TRACK_LENGTH_MS = os.getenv("TRACK_LENGTH_MS") || ;
 
 let startTime = Date.now();
 let endTime = startTime + TRACK_LENGTH_MS;
