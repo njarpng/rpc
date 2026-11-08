@@ -34,7 +34,8 @@ function updatePresence() {
         .setAssetsLargeImage(os.getenv("ASSETS_LARGE_IMAGE")
         // Menambahkan Tombol (Buttons)
         .addButton(os.getenv("BUTTON_1_LABEL"), os.getenv("BUTTON_1_URL")
-        .addButton(os.getenv("BUTTON_2_LABEL"), os.getenv("BUTTON_2_URL");
+        .addButton(os.getenv("BUTTON_2_LABEL"), os.getenv("BUTTON_2_URL")
+        
 
     // Menerapkan status ke akun
     client.user.setActivity(status);
